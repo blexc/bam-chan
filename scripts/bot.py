@@ -27,7 +27,6 @@ async def handle_message(message):
     response = llama_respond(BOT_PERSONALITY, message.content)
     await message.channel.send(response)
 
-
 @client.event
 async def on_message(message: discord.Message) -> None:
     # Start the message handler task in the background
