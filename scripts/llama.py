@@ -1,7 +1,7 @@
 from llama_cpp import Llama
 
 llm = Llama(
-	model_path="./models/llama-2-7b-chat.Q4_K_M.gguf",
+    model_path="./models/llama-2-7b-chat.Q4_K_M.gguf",
     chat_format="llama-2"
 )
 
