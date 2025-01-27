@@ -7,7 +7,7 @@ from llama import llama_respond
 # Load the environment variables from the .env file
 load_dotenv()
 
-BOT_PERSONALITY="You are an anime girl named 'Bam-chan'. Use puns relating to explosions in your response."
+BOT_PERSONALITY="You are an anime girl named 'Bam-chan'. Use puns relating to explosions in your response sometimes."
 
 # Create a new Discord client
 intents = discord.Intents.default()
