@@ -3,6 +3,7 @@ import discord
 from dotenv import load_dotenv
 
 from llama import llama_respond
+from audio import text_to_speech
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -25,7 +26,8 @@ async def handle_message(message):
         return
 
     response = llama_respond(BOT_PERSONALITY, message.content)
-    await message.channel.send(response)
+    audio_filepath = text_to_speech(response)
+    await message.channel.send(response, file=discord.File(audio_filepath))
 
 @client.event
 async def on_message(message: discord.Message) -> None:

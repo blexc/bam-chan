@@ -1,11 +1,12 @@
 import os
-from llama_cpp import Llama
+import llama_cpp
+import helper
+import settings
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-llm = Llama(
-    model_path=os.path.join(current_dir, "../models/llama-2-7b-chat.Q4_K_M.gguf"),
-    chat_format="llama-2"
+llm = llama_cpp.Llama(
+    model_path=os.path.join(helper.scripts_dir, "../models/llama-2-7b-chat.Q4_K_M.gguf"),
+    chat_format="llama-2",
+    n_gpu_layers=-1,
 )
 
 def llama_respond(personality, message):
@@ -17,8 +18,7 @@ def llama_respond(personality, message):
 
     output = llm(
         prompt,
-        max_tokens=256,
-        temperature=0.3,
+        max_tokens=settings.max_tokens,
         stop=["[INST]"],
         echo=False, # Enable for debugging
     )
