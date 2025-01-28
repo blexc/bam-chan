@@ -5,10 +5,10 @@ from dotenv import load_dotenv
 from llama import llama_respond
 from audio import text_to_speech
 
+from settings import allowed_channels
+
 # Load the environment variables from the .env file
 load_dotenv()
-
-BOT_PERSONALITY="You are an anime girl named 'Bam-chan'. Use puns relating to explosions in your response sometimes."
 
 # Create a new Discord client
 intents = discord.Intents.default()
@@ -24,10 +24,20 @@ async def on_ready():
 async def handle_message(message):
     if message.author == client.user:
         return
+    
+    if client.user.mentioned_in(message) and message.channel.name in allowed_channels:
+        # Remove @bam-chan from the message
+        message_to_bot = message.clean_content.replace(f"@{client.user.display_name}", "")
 
-    response = llama_respond(BOT_PERSONALITY, message.content)
-    audio_filepath = text_to_speech(response)
-    await message.channel.send(response, file=discord.File(audio_filepath))
+        # Send message and receive response
+        response = llama_respond(message_to_bot)
+        response = discord.utils.escape_mentions(response)
+
+        # Create audio file of response
+        audio_filepath = text_to_speech(response)
+
+        # Send response back to discord channel
+        await message.channel.send(response, file=discord.File(audio_filepath))
 
 @client.event
 async def on_message(message: discord.Message) -> None:

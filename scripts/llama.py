@@ -1,7 +1,7 @@
 import os
 import llama_cpp
 import helper
-import settings
+from settings import max_tokens, is_debugging, bot_personality, history_limit
 
 llm = llama_cpp.Llama(
     model_path=os.path.join(helper.scripts_dir, "../models/llama-2-7b-chat.Q4_K_M.gguf"),
@@ -9,21 +9,36 @@ llm = llama_cpp.Llama(
     n_gpu_layers=-1,
 )
 
-def llama_respond(personality, message):
-    prompt=(
-        f"[INST] <<SYS>>\n"
-        f"{personality}<</SYS>>\n"
-        f"{message}[/INST]\n"
+# Create message history list
+messages = [
+    {
+        "role": "system",
+        "content": bot_personality,
+    },
+]
+
+def add_message(role, content):
+    """Add message to history"""
+    messages.append({"role" : role, "content": content})
+
+    # If you've exceeded the chat history limit, remove the oldest chat message
+    if len(messages) > history_limit:
+        for message in messages:
+            if message["role"] != "system":
+                messages.remove(message)
+                break
+
+def llama_respond(message):
+    # Add user message to history
+    add_message("user", message)
+
+    response = llm.create_chat_completion(
+        messages=messages,
+        max_tokens=max_tokens,
     )
+    response_content = response["choices"][0]["message"]["content"]
 
-    output = llm(
-        prompt,
-        max_tokens=settings.max_tokens,
-        stop=["[INST]"],
-        echo=False, # Enable for debugging
-    )
+    # Add bot message to history
+    add_message("assistant", response_content)
 
-    return output["choices"][0]["text"]
-
-if __name__ == "__main__":
-    print(llama_respond("You are an anime girl named 'Bam-chan'. Use puns relating to explosions in your response sometimes.", "Do you like pizza? Respond with EXACTLY 3 words."))
+    return response_content

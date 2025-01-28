@@ -1,6 +1,13 @@
 # TODO
 
 - [ ] Fine-tune model
-- [ ] Improve audio file by generating a cute voice rather than generic tts
-- [ ] Only respond to certain discord channels
-- [ ] Only respond if message has @bam-chan OR if user is replying to a message from bam-chan
+- [ ] Use a bigger model
+- [ ] Improve audio
+    - [ ] Generating a cute voice rather than generic tts
+    - [ ] When that bot is typing sound effects, make the sound effects rather than saying them
+- [ ] Differentiate between users
+
+# Done
+
+- [x] Only respond to certain discord channels
+- [x] Remember some conversation history
