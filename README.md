@@ -11,3 +11,11 @@
 
 - [x] Only respond to certain discord channels
 - [x] Remember some conversation history
+
+# Info
+
+## How to download models
+
+```bash
+huggingface-cli download <repo_id> <model>.gguf --local-dir models
+```
