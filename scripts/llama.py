@@ -1,7 +1,7 @@
 import os
 import llama_cpp
 import helper
-from settings import max_tokens, is_debugging, bot_personality, history_limit
+from settings import max_tokens, bot_personality, history_limit
 
 llm = llama_cpp.Llama(
     model_path=os.path.join(helper.scripts_dir, "../models/llama-2-7b-chat.Q4_K_M.gguf"),
