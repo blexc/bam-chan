@@ -1,9 +1,9 @@
 import os
 import pyttsx3
-from helper import scripts_dir
+from helper import repo_dir
 
 def text_to_speech(text):
-    audio_filepath = os.path.join(scripts_dir, "response.mp3")
+    audio_filepath = os.path.join(repo_dir, "response.mp3")
     engine = pyttsx3.init()
     engine.save_to_file(text, audio_filepath)
     engine.runAndWait()

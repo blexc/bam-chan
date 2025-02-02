@@ -27,7 +27,7 @@ async def handle_message(message):
     
     if client.user.mentioned_in(message) and message.channel.name in allowed_channels:
         # Remove @bam-chan from the message
-        message_to_bot = message.clean_content.replace(f"@{client.user.display_name}", "")
+        message_to_bot = message.clean_content.replace(f"@{client.user.display_name} ", "")
 
         # Send message and receive response
         response = llama_respond(message_to_bot)

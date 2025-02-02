@@ -7,8 +7,12 @@ discord.py
 python-dotenv
 
 # llama wrapper
+# If you want to build with CUDA support, you may need to do this instead:
 # CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=75" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade --verbose
 llama-cpp-python
 
 # audio generation
 pyttsx3
+
+# fine-tuning
+"unsloth[???] @ git+https://github.com/unslothai/unsloth.git"
