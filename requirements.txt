@@ -12,7 +12,9 @@ python-dotenv
 llama-cpp-python
 
 # audio generation
+espeak
 pyttsx3
 
 # fine-tuning
-"unsloth[???] @ git+https://github.com/unslothai/unsloth.git"
+torch
+"unsloth[cu128-torch???] @ git+https://github.com/unslothai/unsloth.git"

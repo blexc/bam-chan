@@ -33,11 +33,8 @@ async def handle_message(message):
         response = llama_respond(message_to_bot)
         response = discord.utils.escape_mentions(response)
 
-        # Create audio file of response
-        audio_filepath = text_to_speech(response)
-
         # Send response back to discord channel
-        await message.channel.send(response, file=discord.File(audio_filepath))
+        await message.channel.send(response)
 
 @client.event
 async def on_message(message: discord.Message) -> None:
