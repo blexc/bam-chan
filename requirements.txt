@@ -1,20 +1,22 @@
 # pip install -r requirements.txt
 
-# Discord API
+# setuptools (used in unsloth)
+setuptools
+
+# huggingface
+huggingface-hub>=0.17.1
+datasets
+
+# discord api
 discord.py
 
 # .env
 python-dotenv
 
-# llama wrapper
-# If you want to build with CUDA support, you may need to do this instead:
-# CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=75" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade --verbose
-llama-cpp-python
-
 # audio generation
-espeak
 pyttsx3
 
-# fine-tuning
-torch
-"unsloth[cu128-torch???] @ git+https://github.com/unslothai/unsloth.git"
+# The following packages should be installed separately for GPU support, see README:
+# llama-cpp-python
+# torch
+# unsloth

@@ -14,5 +14,13 @@ is_debugging = True
 # bot personality
 bot_personality = "Your creator is Blex. Playfully respond as 'Bam-chan', an anime girl. Use explosion puns sometimes. Keep it PG-13."
 
+# list of models
+model_list = [
+    "DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf",
+    "llama-2-7b-chat.Q4_K_M.gguf"
+]
+
 # model you want to use
-model = "DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf"
+model = model_list[1]
+
+is_r1 = "R1" in model
