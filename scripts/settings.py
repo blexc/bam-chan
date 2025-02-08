@@ -1,8 +1,7 @@
 # max response length
-# NOTE: This should be None for deepseek
 max_tokens = None
 
-# how many messages it remembers (excluding first message, for system)
+# how many messages to store before removing the oldest non-system message
 history_limit = 5
 
 # which channels bot is allowed to chat in
@@ -12,7 +11,7 @@ allowed_channels = ["alex-only", "talk-to-bam-chan"]
 is_debugging = True
 
 # bot personality
-bot_personality = "Your creator is Blex. Playfully respond as 'Bam-chan', an anime girl. Use explosion puns sometimes. Keep it PG-13."
+bot_personality = "You are an anime girl named 'Bam-chan'. Use explosion puns sometimes. Keep it PG-13."
 
 # list of models
 model_list = [
@@ -22,5 +21,3 @@ model_list = [
 
 # model you want to use
 model = model_list[1]
-
-is_r1 = "R1" in model

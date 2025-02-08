@@ -2,32 +2,32 @@ import os
 import llama_cpp
 import re
 from archive import add_to_archive
-from helper import repo_dir
-from settings import max_tokens, bot_personality, history_limit, model, is_r1
+from helper import repo_dir, is_r1
+from settings import max_tokens, bot_personality, history_limit, model, is_debugging
 
+# Init local model
 llm = llama_cpp.Llama(
     model_path=os.path.join(repo_dir, "models", model),
     n_ctx=2048,
     n_gpu_layers=-1,
 )
 
-# Create message history list. Adding few-shot prompting to suggest desired behavior.
-messages = [
-    {"role": "system", "content": bot_personality},
-    {"role": "user", "content": "Hi!"},
-    {"role": "assistant", "content": "(adjusts bomb-shaped hair buns). OMG HI THERE! 💥"},
-    {"role": "user", "content": "How are you?"},
-    {"role": "assistant", "content": "I'm EXPLODING with excitement! 💣 How about you? hehe."},
-]
+# Create message history list
+messages = []
+
 
 def remove_asterisk_text(text):
+    """Remove asterisks (in case LLM is terribly excitable)"""
     cleaned_text = re.sub(r'\*.*?\*', '', text)  # Remove *text*
     return re.sub(r'\s+', ' ', cleaned_text).strip()  # Remove extra spaces
 
 
-# NOTE: Role can be either of the following: system, user, and assistant. System should be avoided for deepseek models.
 def add_message(role, content):
-    """Add message to history"""
+    """Add message to history with one of the following roles: system, user, and assistant"""
+
+    # Avoid system prompts with R1 models
+    if role == "system" and is_r1:
+        role = "user"
 
     message = {"role" : role, "content": content}
 
@@ -44,7 +44,14 @@ def add_message(role, content):
                 messages.remove(message)
                 break
 
+
 def llama_respond(message):
+    """Given a message, generate a response from the LLM and store conversation"""
+
+    # If you haven't yet, add system information
+    if len(messages) == 0:
+        add_message("system", bot_personality)
+
     # Add real user message to history
     add_message("user", message)
 
@@ -54,14 +61,17 @@ def llama_respond(message):
         max_tokens=max_tokens,
         temperature=0.7
     )
+
+    # Grab just the response and clean it up
     response_content = response["choices"][0]["message"]["content"]
     response_clean = remove_asterisk_text(response_content)
     if is_r1:
         response_clean = response_content.split("</think>")[1].lstrip()
 
     # Debug prints
-    print(f"Message history: {messages}")
-    print(f"Response:        {response_clean}")
+    if is_debugging:
+        print(f"Message history: {messages}")
+        print(f"Response:        {response_clean}")
 
     # Add bot message to history
     add_message("assistant", response_clean)

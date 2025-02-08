@@ -12,7 +12,7 @@
 - [ ] Differentiate between users (add username to message, and perhaps add this information to dataset as well)
 - [ ] Train secondary model with one token to generate emoji to react to message
 - [ ] Automatically append chat history in JSON format to a single file (so I can pick messages I want to fine-tune with)
-- [ ] Store chat history using `datasets` and make it conversational formatting
+- [ ] Archive chat history in JSON file and make it [conversational formatting](https://huggingface.co/docs/trl/en/sft_trainer#dataset-format-support)
 
 # Done
 
