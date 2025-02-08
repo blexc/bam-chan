@@ -1,3 +1,0 @@
-[submodule "datasets/bam-chan"]
-	path = datasets/bam-chan
-	url = https://huggingface.co/datasets/blexchapman/bam-chan
