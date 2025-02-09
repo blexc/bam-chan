@@ -16,6 +16,21 @@ llm = llama_cpp.Llama(
 messages = []
 
 
+def all_lowercase_but_cap_words(text):
+    """Makes all text lowercase, unless a word is all uppercase"""
+    words = text.split()
+    result = []
+
+    for word in words:
+        # Check if the word is all caps
+        if word.isupper():
+            result.append(word)
+        else:
+            result.append(word.lower())
+
+    return ' '.join(result)
+
+
 def remove_asterisk_text(text):
     """Remove asterisks (in case LLM is terribly excitable)"""
     cleaned_text = re.sub(r'\*.*?\*', '', text)  # Remove *text*
@@ -67,6 +82,7 @@ def llama_respond(message):
     response_clean = remove_asterisk_text(response_content)
     if is_r1:
         response_clean = response_content.split("</think>")[1].lstrip()
+    response_clean = all_lowercase_but_cap_words(response_clean)
 
     # Debug prints
     if is_debugging:
