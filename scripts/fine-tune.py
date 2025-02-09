@@ -8,6 +8,8 @@ import torch
 import os
 from helper import repo_dir
 
+# This script when run as main will fine-tune a dataset
+
 models_to_try = [
     "unsloth/Meta-Llama-3.1-8B-bnb-4bit",
     "unsloth/Meta-Llama-3.1-8B",
@@ -26,7 +28,10 @@ bamchan_prompt = """Below is an input message that is part of a longer conversat
 {}"""
 
 
-def load_model():
+
+
+if __name__ == "__main__":
+
     # Load model
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name = model_name,
@@ -50,10 +55,6 @@ def load_model():
         loftq_config = None,
     )
 
-    return model, tokenizer
-
-
-def prep_dataset(tokenizer):
     EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
     def formatting_prompts_func(examples):
         inputs       = examples["input"]
@@ -64,45 +65,9 @@ def prep_dataset(tokenizer):
             text = bamchan_prompt.format(input, output) + EOS_TOKEN
             texts.append(text)
         return { "text" : texts, }
-    pass
 
-    from datasets import load_dataset
     dataset = load_dataset("blexchapman/bam-chan", split = "train")
     dataset = dataset.map(formatting_prompts_func, batched = True,)
-    return dataset
-
-
-def print_memory_stats():
-    gpu_stats = torch.cuda.get_device_properties(0)
-    start_gpu_memory = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
-    max_memory = round(gpu_stats.total_memory / 1024 / 1024 / 1024, 3)
-    print(f"GPU = {gpu_stats.name}. Max memory = {max_memory} GB.")
-    print(f"{start_gpu_memory} GB of memory reserved.")
-    return start_gpu_memory, max_memory
-
-
-def print_final_memory_and_time_stats(start_gpu_memory, max_memory):
-    used_memory = round(torch.cuda.max_memory_reserved() / 1024 / 1024 / 1024, 3)
-    used_memory_for_lora = round(used_memory - start_gpu_memory, 3)
-    used_percentage = round(used_memory / max_memory * 100, 3)
-    lora_percentage = round(used_memory_for_lora / max_memory * 100, 3)
-    print(f"{trainer_stats.metrics['train_runtime']} seconds used for training.")
-    print(
-        f"{round(trainer_stats.metrics['train_runtime']/60, 2)} minutes used for training."
-    )
-    print(f"Peak reserved memory = {used_memory} GB.")
-    print(f"Peak reserved memory for training = {used_memory_for_lora} GB.")
-    print(f"Peak reserved memory % of max memory = {used_percentage} %.")
-    print(f"Peak reserved memory for training % of max memory = {lora_percentage} %.")
-
-
-if __name__ == "__main__":
-
-    # Load model
-    model, tokenizer = load_model()
-
-    # Prepare dataset
-    dataset = prep_dataset(tokenizer)
 
     # Train model
     trainer = SFTTrainer(
@@ -132,20 +97,24 @@ if __name__ == "__main__":
         ),
     )
 
-    start_gpu_memory, max_memory = print_memory_stats()
-
     trainer_stats = trainer.train()
 
-    print_final_memory_and_time_stats(start_gpu_memory, max_memory)
-
     # Test model
-    FastLanguageModel.for_inference(model)
-    inputs = tokenizer(
-    [
-        bamchan_prompt.format(
-            "hey there!", # input
-            "", # output - leave this blank for generation!
-        )
-    ], return_tensors = "pt").to("cuda")
-    outputs = model.generate(**inputs, max_new_tokens = 64, use_cache = True)
-    tokenizer.batch_decode(outputs)
+    FastLanguageModel.for_inference(model) # Enable native 2x faster inference
+    messages = [
+        {"role": "system", "content": "You are an anime girl named 'Bam-chan'. Use explosion puns sometimes. Keep it PG-13."},
+        {"role": "user", "content": "What does your hair look like?"},
+    ]
+    inputs = tokenizer.apply_chat_template(
+        messages,
+        tokenize = True,
+        add_generation_prompt = True, # Must add for generation
+        return_tensors = "pt",
+    ).to("cuda")
+    outputs = model.generate(input_ids = inputs, max_new_tokens = 240, use_cache = True,
+                            temperature = 1.5, min_p = 0.1)
+    print(tokenizer.decode(outputs[0]))
+
+    # Convert to GGUF and upload model to huggingface 
+    model_name = model_name.split("/")[1]
+    model.save_pretrained_gguf(f"blexchapman/{model_name}-bam-chan", tokenizer, quantization_method = "q4_k_m")
