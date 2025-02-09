@@ -1,24 +1,3 @@
-# TODO
-
-- [ ] Fine-tune model
-- [ ] Fine-tune model using conversational formatting
-- [ ] Fine-tune a reasoning model
-- [ ] Try vision models
-- [ ] Improve audio
-    - [ ] Try kokoro again
-    - [ ] Generating a cute voice rather than generic tts
-    - [ ] When that bot is typing sound effects, make the sound effects rather than saying them
-    - [ ] Resolve case when two audio files are generated at the same time
-- [ ] Differentiate between users (add username to message, and perhaps add this information to dataset as well)
-- [ ] Train secondary model with one token to generate emoji to react to message
-- [ ] Automatically append chat history in JSON format to a single file (so I can pick messages I want to fine-tune with)
-- [ ] Archive chat history in JSON file and make it [conversational formatting](https://huggingface.co/docs/trl/en/sft_trainer#dataset-format-support)
-
-# Done
-
-- [x] Only respond to certain discord channels
-- [x] Remember some conversation history
-
 # How to...
 
 ## Install CUDA 12.6 on WSL
