@@ -1,8 +1,8 @@
-#![Screenshot 2025-02-08 160916](https://github.com/user-attachments/assets/1c54125c-dd74-473a-95bc-2ca1f7989876)
+![Screenshot 2025-02-08 160916](https://github.com/user-attachments/assets/1c54125c-dd74-473a-95bc-2ca1f7989876)
 
 Bam-chan is a AI chat bot with a strange personality that I created for my personal discord.
 
- How to...
+# How to...
 
 ## Install CUDA 12.6 on WSL
 
