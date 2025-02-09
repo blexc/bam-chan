@@ -1,4 +1,4 @@
-![Screenshot 2025-02-08 160916](https://github.com/user-attachments/assets/1c54125c-dd74-473a-95bc-2ca1f7989876)
+![image](https://github.com/user-attachments/assets/659b39a1-52cb-4891-93f3-9b6e2b50e5ee)
 
 Bam-chan is a AI chat bot with a strange personality that I created for my personal discord.
 
