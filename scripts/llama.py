@@ -60,12 +60,15 @@ def add_message(role, content):
                 break
 
 
-def llama_respond(message):
+def llama_respond(username, message):
     """Given a message, generate a response from the LLM and store conversation"""
 
     # If you haven't yet, add system information
     if len(messages) == 0:
         add_message("system", bot_personality)
+
+    # Append username to message in proper format
+    message = f"From {username}: {message}"
 
     # Add real user message to history
     add_message("user", message)
@@ -93,3 +96,8 @@ def llama_respond(message):
     add_message("assistant", response_clean)
 
     return response_clean
+
+# # Debug
+# if __name__ == "__main__":
+#     while True:
+#         llama_respond(input("Enter username = "), input("Enter message = "))

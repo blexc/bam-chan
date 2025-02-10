@@ -29,11 +29,8 @@ async def handle_message(message):
         # Remove @bam-chan from the message
         message_to_bot = message.clean_content.replace(f"@{client.user.display_name} ", "")
 
-        # Add username to the message (<username>: <message>)
-        message_to_bot = f"{message.author.display_name}: {message_to_bot}"
-
         # Send message and receive response
-        response = llama_respond(message_to_bot)
+        response = llama_respond(message.author.display_name, message_to_bot)
         response = discord.utils.escape_mentions(response)
 
         # Send response back to discord channel
