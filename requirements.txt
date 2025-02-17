@@ -14,7 +14,14 @@ discord.py
 python-dotenv
 
 # audio generation
-pyttsx3
+kokoro
+soundfile
+
+# Remove emojis
+emoji
+
+# Pitch shift
+praat-parselmouth
 
 # The following packages should be installed separately for GPU support, see README:
 # llama-cpp-python
