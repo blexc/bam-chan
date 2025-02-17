@@ -1,4 +1,5 @@
 import os
+import emoji
 import discord
 from dotenv import load_dotenv
 
@@ -17,6 +18,9 @@ intents.presences = False
 intents.message_content = True
 client = discord.Client(intents=intents)
 
+def remove_emojis(text):
+    return emoji.replace_emoji(text, replace="")
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -33,8 +37,11 @@ async def handle_message(message):
         response = llama_respond(message.author.display_name, message_to_bot)
         response = discord.utils.escape_mentions(response)
 
+        # Generate TTS
+        audio_filepath = text_to_speech(remove_emojis(response))
+
         # Send response back to discord channel
-        await message.channel.send(response)
+        await message.channel.send(response, file=discord.File(audio_filepath))
 
 @client.event
 async def on_message(message: discord.Message) -> None:

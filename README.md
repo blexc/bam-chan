@@ -2,7 +2,14 @@
 
 Bam-chan is a AI chat bot with a strange personality that I created for my personal discord.
 
-# How to...
+# Installing dependencies
+
+The following TPLs should be installed before running this program.
+
+```
+# Recommended for kokoro
+sudo apt install espeak-ng
+```
 
 ## Install CUDA 12.6 on WSL
 
@@ -21,10 +28,10 @@ pip install "unsloth[cu126-torch260] @ git+https://github.com/unslothai/unsloth.
 CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=75" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade --verbose
 ```
 
+# Other Info
+
 ## Download GGUF models
 
 ```bash
 huggingface-cli download <repo_id> <model>.gguf --local-dir models
 ```
-
-Note that models with a full directory are for fine tuning, whereas `.gguf` files are for running the llm via llama.
