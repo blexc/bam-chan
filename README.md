@@ -24,6 +24,7 @@ CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=75" FORCE_CMAKE=1 pip inst
 # Install GPT-SoVITS for TTS (optional)
 
 ```
+git submodules --init
 pip install -r external/GPT-SoVITS/requirements.txt
 ```
 
