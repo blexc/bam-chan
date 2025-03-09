@@ -4,13 +4,6 @@ Bam-chan is a AI chat bot with a strange personality that I created for my perso
 
 # Installing dependencies
 
-The following TPLs should be installed before running this program.
-
-```
-# Recommended for kokoro
-sudo apt install espeak-ng
-```
-
 ## Install CUDA 12.6 on WSL
 
 ```
