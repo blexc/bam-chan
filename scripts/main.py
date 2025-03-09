@@ -4,9 +4,9 @@ import discord
 from dotenv import load_dotenv
 
 from llama import llama_respond
-from audio import text_to_speech
+from audio import tts
 
-from settings import allowed_channels
+from settings import allowed_channels, enable_tts
 
 # Load the environment variables from the .env file
 load_dotenv()
@@ -37,11 +37,12 @@ async def handle_message(message):
         response = llama_respond(message.author.display_name, message_to_bot)
         response = discord.utils.escape_mentions(response)
 
-        # Generate TTS
-        audio_filepath = text_to_speech(remove_emojis(response))
-
-        # Send response back to discord channel
-        await message.channel.send(response, file=discord.File(audio_filepath))
+        # Send response back to discord channel optionally with TTS
+        if enable_tts:
+            audio_filepath = tts(remove_emojis(response))
+            await message.channel.send(response, file=discord.File(audio_filepath))
+        else:
+            await message.channel.send(response)
 
 @client.event
 async def on_message(message: discord.Message) -> None:

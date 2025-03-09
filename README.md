@@ -28,6 +28,14 @@ pip install "unsloth[cu126-torch260] @ git+https://github.com/unslothai/unsloth.
 CMAKE_ARGS="-DGGML_CUDA=on -DCMAKE_CUDA_ARCHITECTURES=75" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade --verbose
 ```
 
+# Install GPT-SoVITS for TTS (optional)
+
+```
+pip install -r external/GPT-SoVITS/requirements.txt
+```
+
+At the moment data used to generate TTS is stored in `models/GPT-SoVITS`. The four things that need to be stored there is the gpt model, sovits model, reference audio, and reference text. At the moment, these are hard-coded in `audio.py`, but should later-on have some default option that's always available. You can disable TTS in the `settings.py`.
+
 # Other Info
 
 ## Download GGUF models
