@@ -23,7 +23,7 @@ def all_lowercase_but_cap_words(text):
 
     for word in words:
         # Check if the word is all caps
-        if word.isupper():
+        if word.isupper() and len(word) > 1:
             result.append(word)
         else:
             result.append(word.lower())
