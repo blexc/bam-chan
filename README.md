@@ -34,3 +34,9 @@ At the moment data used to generate TTS is stored in `models/GPT-SoVITS`. The fo
 Bam-chan uses `unsloth/Llama-3.2-3B-Instruct` as a base model. I fine-tuned the model to give the responses more... personality. See `datasets` to view the dataset I used to fine-tune the model.
 
 Gist of Google Colab I used to fine-tune model: https://gist.github.com/blexc/14f7fe9fce36ad60092bcb8d348071c4
+
+# External Docs
+
+- https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama
+- https://discordpy.readthedocs.io/en/stable/api.html
+
