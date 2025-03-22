@@ -39,4 +39,5 @@ Gist of Google Colab I used to fine-tune model: https://gist.github.com/blexc/14
 
 - https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama
 - https://discordpy.readthedocs.io/en/stable/api.html
+- https://rentry.co/GPT-SoVITS-guide#/
 
